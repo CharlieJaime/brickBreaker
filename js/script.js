@@ -17,10 +17,32 @@ window.onload = function(){
   canvasContext = canvas.getContext('2d');
   var framesPerSecond = 30;
   setInterval(updateAll, 1000/framesPerSecond)
-  playArea();
 }
 
 function updateAll(){
+  playArea();
+  movement();
+}
+
+function colorRect(leftX, topY, width, height, color){
+  canvasContext.fillStyle = color;
+  canvasContext.fillRect(leftX, topY, width, height);
+}
+
+function playArea(){
+  // gameCanvas
+  colorRect(0,0,canvas.width, canvas.height, 'black');
+  // ball
+  canvasContext.fillStyle = 'lightgrey';
+  canvasContext.beginPath();
+  canvasContext.arc(ballX, ballY, 10, 0, Math.PI*2, true);
+  canvasContext.fill();
+  // paddle
+  colorRect(canvas.width/2-PADDLE_THICKNESS, canvas.height-PADDLE_HEIGHT, PADDLE_THICKNESS, PADDLE_HEIGHT, 'lightgrey');
+}
+
+function movement(){
+  // ballMovement
   ballX += ballSpeedX;
   ballY += ballSpeedY;
   // ballY
@@ -35,31 +57,4 @@ function updateAll(){
   } else if(ballX < 0){
     ballSpeedX = -ballSpeedX;
   }
-
-  // gameCanvas
-  colorRect(0,0,canvas.width, canvas.height, 'black');
-  // ball
-  canvasContext.fillStyle = 'lightgrey';
-  canvasContext.beginPath();
-  canvasContext.arc(ballX, ballY, 10, 0, Math.PI*2, true);
-  canvasContext.fill();
-  // paddle
-  colorRect(canvas.width/2-PADDLE_THICKNESS, canvas.height-PADDLE_HEIGHT, PADDLE_THICKNESS, PADDLE_HEIGHT, 'lightgrey');
 }
-
-function colorRect(leftX, topY, width, height, color){
-  canvasContext.fillStyle = color;
-  canvasContext.fillRect(leftX, topY, width, height);
-}
-
-// function playArea(){
-//   // gameCanvas
-//   colorRect(0,0,canvas.width, canvas.height, 'black');
-//   // ball
-//   canvasContext.fillStyle = 'lightgrey';
-//   canvasContext.beginPath();
-//   canvasContext.arc(100, 100, 10, 0, Math.PI*2, true);
-//   canvasContext.fill();
-//   // paddle
-//   colorRect(canvas.width/2-PADDLE_THICKNESS, canvas.height-PADDLE_HEIGHT, PADDLE_THICKNESS, PADDLE_HEIGHT, 'lightgrey');
-// }
