@@ -1,0 +1,5 @@
+==README
+
+My recreation of brick breaker.
+I used HTML5 canvas and pure JavaScript to create general game play along with
+game stucture.
