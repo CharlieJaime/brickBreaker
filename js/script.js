@@ -3,15 +3,16 @@ var canvas, canvasContext;
 
 // ball
 var ballX = 75;
-var ballSpeedX = 15;
+var ballSpeedX = 6;
 var ballY = 75;
-var ballSpeedY = 7;
+var ballSpeedY = 6;
 
 // Main Paddle
 var mainPaddleY = 0;
 var paddleX = 400;
-const PADDLE_HEIGHT = 15;
+const PADDLE_THICKNESS = 15;
 const PADDLE_WIDTH = 100;
+const PADDLE_DIST_FROM_EDGE = 60;
 
 
 window.onload = function(){
@@ -34,7 +35,7 @@ function playArea(){
   // ball
   colorCircle();
   // paddle
-  colorRect(paddleX, canvas.height-PADDLE_HEIGHT, PADDLE_WIDTH, PADDLE_HEIGHT, 'lightgrey');
+  colorRect(paddleX, canvas.height-PADDLE_DIST_FROM_EDGE, PADDLE_WIDTH, PADDLE_THICKNESS, 'lightgrey');
 }
 
 function colorRect(leftX, topY, width, height, color){
@@ -49,13 +50,19 @@ function colorCircle(){
   canvasContext.fill();
 }
 
+function ballRest(){
+  ballX = canvas.width/2;
+  ballY = canvas.height/2;
+}
+
 function movement(){
   // ballMovement
   ballX += ballSpeedX;
   ballY += ballSpeedY;
   // ballY
   if(ballY > canvas.height){
-    ballSpeedY = -ballSpeedY;
+    // ballSpeedY = -ballSpeedY;
+    ballRest();
   } else if(ballY < 0){
     ballSpeedY = -ballSpeedY;
   }
@@ -64,6 +71,21 @@ function movement(){
     ballSpeedX = -ballSpeedX;
   } else if(ballX < 0){
     ballSpeedX = -ballSpeedX;
+  }
+
+  // paddle
+  var paddleTopEdgeY = canvas.height-PADDLE_DIST_FROM_EDGE;
+  var paddleBottomEdgeY = paddleTopEdgeY+PADDLE_THICKNESS;
+  var paddleLeftEdgeX = paddleX;
+  var paddleRightEdgeX = paddleX+PADDLE_WIDTH;
+  if(ballY > paddleTopEdgeY && ballY < paddleBottomEdgeY &&
+      ballX > paddleLeftEdgeX && ballX < paddleRightEdgeX){
+
+    ballSpeedY = -ballSpeedY;
+
+    var paddleCenterX = paddleX + PADDLE_WIDTH/2;
+    var ballDistFromCenterX = ballX - paddleCenterX;
+    ballSpeedX = ballDistFromCenterX * 0.35;
   }
 }
 
