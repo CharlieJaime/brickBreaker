@@ -7,11 +7,8 @@ var canvas, canvasContext;
 // Bricks
 const BRICK_W = 100;
 const BRICK_H = 50;
-const BRICK_COUNT = 4;
-var brick1 = true;
-var brick2 = true;
-var brick3 = true;
-var brick4 = true;
+const BRICK_COUNT = 8;
+var brickGrid = new Array(BRICK_COUNT);
 
 // Ball
 var ballX = 75;
@@ -39,6 +36,7 @@ window.onload = function(){
   setInterval(updateAll, 1000/framesPerSecond);
 
   canvas.addEventListener('mousemove', updateMousePos);
+  brickReset();
 }
 
 function updateAll(){
@@ -49,6 +47,12 @@ function updateAll(){
 function ballRest(){
   ballX = canvas.width/2;
   ballY = canvas.height/2;
+}
+
+function brickReset(){
+  for (var i=0; i<BRICK_COUNT; i++) {
+    brickGrid[i] = true;
+  }
 }
 
 function movement(){
@@ -124,17 +128,11 @@ function colorText(showWords, textX,textY, fillColor) {
 }
 
 function drawbricks(){
-  if(brick1){
-    colorRect(0,0, BRICK_W-2, BRICK_H, "blue");
-  }
-  if(brick2){
-    colorRect(BRICK_W,0, BRICK_W-2, BRICK_H, "blue");
-  }
-  if(brick3){
-    colorRect(BRICK_W*2,0, BRICK_W-2, BRICK_H, "blue");
-  }
-  if(brick4){
-    colorRect(BRICK_W*3,0, BRICK_W-2, BRICK_H, "blue");
+
+  for(var i=0; i<BRICK_COUNT; i++){
+    if(brickGrid[0]){
+      colorRect(BRICK_W*i, 0, BRICK_W-2, BRICK_H, 'blue');
+    }
   }
 }
 
