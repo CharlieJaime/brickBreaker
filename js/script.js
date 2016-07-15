@@ -53,7 +53,11 @@ function ballRest(){
 
 function brickReset(){
   for (var i=0; i<BRICK_COLS*BRICK_ROWS; i++) {
-    brickGrid[i] = true;
+    if(Math.random()<0.5){
+      brickGrid[i] = true;
+    } else {
+      brickGrid[i] = false;
+    }
   }
 }
 
