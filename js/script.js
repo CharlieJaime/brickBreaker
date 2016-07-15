@@ -8,9 +8,9 @@ var canvas, canvasContext;
 const BRICK_W = 100;
 const BRICK_H = 50;
 const BRICK_GAP = 2;
-const BRICK_COUNT = 8;
+const BRICK_COLS = 8;
 const BRICK_ROWS = 6;
-var brickGrid = new Array(BRICK_COUNT);
+var brickGrid = new Array(BRICK_COLS);
 
 // Ball
 var ballX = 75;
@@ -52,7 +52,7 @@ function ballRest(){
 }
 
 function brickReset(){
-  for (var i=0; i<BRICK_COUNT; i++) {
+  for (var i=0; i<BRICK_COLS; i++) {
     brickGrid[i] = true;
   }
 }
@@ -133,9 +133,9 @@ function colorText(showWords, textX,textY, fillColor) {
 
 function drawbricks(){
   for (var eachRow=0; eachRow<BRICK_ROWS; eachRow++) {
-    for(var i=0; i<BRICK_COUNT; i++){
-      if(brickGrid[i]){
-        colorRect(BRICK_W*i, BRICK_H*eachRow,
+    for(var eachCol=0; eachCol<BRICK_COLS; eachCol++){
+      if(brickGrid[eachCol]){
+        colorRect(BRICK_W*eachCol, BRICK_H*eachRow,
           BRICK_W-BRICK_GAP, BRICK_H-BRICK_GAP, 'blue');
       } //   if brick
     }// each brick
