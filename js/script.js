@@ -5,11 +5,11 @@ Global Var
 var canvas, canvasContext;
 
 // Bricks
-const BRICK_W = 100;
-const BRICK_H = 50;
+const BRICK_W = 80;
+const BRICK_H = 20;
 const BRICK_GAP = 2;
-const BRICK_COLS = 8;
-const BRICK_ROWS = 6;
+const BRICK_COLS = 10;
+const BRICK_ROWS = 16;
 var brickGrid = new Array(BRICK_COLS*BRICK_ROWS);
 
 // Ball
@@ -119,10 +119,12 @@ function playArea(){
   // paddle
   colorRect(paddleX, canvas.height-PADDLE_DIST_FROM_EDGE, PADDLE_WIDTH, PADDLE_THICKNESS, 'lightgrey');
 
-  var mouseBrickCol = mouseX / BRICK_W;
-  var mouseBrickRow = mouseY / BRICK_H;
-  colorText(mouseBrickCol+","+mouseBrickRow, mouseX, mouseY, 'white');
   drawbricks();
+
+  var mouseBrickCol = Math.floor(mouseX / BRICK_W);
+  var mouseBrickRow = Math.floor(mouseY / BRICK_H);
+  var brickIndexUnderMouse = rowColToArrayIndex(mouseBrickCol, mouseBrickRow)
+  colorText(mouseBrickCol+","+mouseBrickRow+": "+brickIndexUnderMouse, mouseX, mouseY, 'white');
 }
 
 function colorRect(leftX, topY, width, height, color){
@@ -135,10 +137,14 @@ function colorText(showWords, textX,textY, fillColor) {
   canvasContext.fillText(showWords, textX, textY);
 }
 
+function rowColToArrayIndex(col, row){
+  return col + BRICK_COLS * row;
+}
+
 function drawbricks(){
   for (var eachRow=0; eachRow<BRICK_ROWS; eachRow++) {
     for(var eachCol=0; eachCol<BRICK_COLS; eachCol++){
-      var arrayIndex = BRICK_COLS * eachRow + eachCol;
+      var arrayIndex = rowColToArrayIndex(eachCol, eachRow);
       if(brickGrid[arrayIndex]){
         colorRect(BRICK_W*eachCol , BRICK_H*eachRow,
           BRICK_W-BRICK_GAP, BRICK_H-BRICK_GAP, 'blue');
