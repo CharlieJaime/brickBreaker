@@ -53,15 +53,16 @@ function ballRest(){
 
 function brickReset(){
   for (var i=0; i<BRICK_COLS*BRICK_ROWS; i++) {
-    if(Math.random()<0.5){
-      brickGrid[i] = true;
-    } else {
-      brickGrid[i] = false;
-    }
+    // if(Math.random()<0.5){
+    //   brickGrid[i] = true;
+    // } else {
+    //   brickGrid[i] = false;
+    // }
+    brickGrid[i] = true;
   }
 }
 
-function movement(){
+function ballMove(){
   // ballMovement
   ballX += ballSpeedX;
   ballY += ballSpeedY;
@@ -78,16 +79,22 @@ function movement(){
   } else if(ballX < 0){
     ballSpeedX = -ballSpeedX;
   }
+}
 
+function ballBrickColl(){
   var ballBrickCol = Math.floor(ballX / BRICK_W);
   var ballBrickRow = Math.floor(ballY / BRICK_H);
   var brickIndexUnderBall = rowColToArrayIndex(ballBrickCol, ballBrickRow);
   if (ballBrickCol >= 0 && ballBrickCol < BRICK_COLS && ballBrickRow >= 0 && ballBrickRow < BRICK_ROWS){
-
-    brickGrid[brickIndexUnderBall] = false;
+    if (brickGrid[brickIndexUnderBall]) {
+      brickGrid[brickIndexUnderBall] = false;
+      ballSpeedY = -ballSpeedY;
+    }
   }
   // colorText(ballBrickCol+","+ballBrickRow+": "+brickIndexUnderBall, mouseX, mouseY, 'white');
+}
 
+function paddleMove(){
   // paddle
   var paddleTopEdgeY = canvas.height-PADDLE_DIST_FROM_EDGE;
   var paddleBottomEdgeY = paddleTopEdgeY+PADDLE_THICKNESS;
@@ -105,6 +112,12 @@ function movement(){
     var ballDistFromCenterX = ballX - paddleCenterX;
     ballSpeedX = ballDistFromCenterX * 0.35;
   }
+}
+
+function movement(){
+  ballMove();
+  ballBrickColl();
+  paddleMove();
 }
 
 function updateMousePos(evt) {
