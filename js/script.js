@@ -79,6 +79,15 @@ function movement(){
     ballSpeedX = -ballSpeedX;
   }
 
+  var ballBrickCol = Math.floor(ballX / BRICK_W);
+  var ballBrickRow = Math.floor(ballY / BRICK_H);
+  var brickIndexUnderBall = rowColToArrayIndex(ballBrickCol, ballBrickRow);
+  if (ballBrickCol >= 0 && ballBrickCol < BRICK_COLS && ballBrickRow >= 0 && ballBrickRow < BRICK_ROWS){
+
+    brickGrid[brickIndexUnderBall] = false;
+  }
+  // colorText(ballBrickCol+","+ballBrickRow+": "+brickIndexUnderBall, mouseX, mouseY, 'white');
+
   // paddle
   var paddleTopEdgeY = canvas.height-PADDLE_DIST_FROM_EDGE;
   var paddleBottomEdgeY = paddleTopEdgeY+PADDLE_THICKNESS;
@@ -120,11 +129,6 @@ function playArea(){
   colorRect(paddleX, canvas.height-PADDLE_DIST_FROM_EDGE, PADDLE_WIDTH, PADDLE_THICKNESS, 'lightgrey');
 
   drawbricks();
-
-  var mouseBrickCol = Math.floor(mouseX / BRICK_W);
-  var mouseBrickRow = Math.floor(mouseY / BRICK_H);
-  var brickIndexUnderMouse = rowColToArrayIndex(mouseBrickCol, mouseBrickRow)
-  colorText(mouseBrickCol+","+mouseBrickRow+": "+brickIndexUnderMouse, mouseX, mouseY, 'white');
 }
 
 function colorRect(leftX, topY, width, height, color){
