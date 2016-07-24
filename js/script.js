@@ -6,7 +6,7 @@ var canvas, canvasContext;
 
 // Bricks
 const BRICK_W = 80;
-const BRICK_H = 20;
+const BRICK_H = 40;
 const BRICK_GAP = 2;
 const BRICK_COLS = 10;
 const BRICK_ROWS = 16;
@@ -88,7 +88,19 @@ function ballBrickColl(){
   if (ballBrickCol >= 0 && ballBrickCol < BRICK_COLS && ballBrickRow >= 0 && ballBrickRow < BRICK_ROWS){
     if (brickGrid[brickIndexUnderBall]) {
       brickGrid[brickIndexUnderBall] = false;
-      ballSpeedY = -ballSpeedY;
+
+      var prevBallX = ballX - ballSpeedX;
+      var prevBallY = ballY - ballSpeedY;
+      var prevBrickCol = Math.floor(prevBallX / BRICK_W);
+      var prevBrickRow = Math.floor(prevBallY / BRICK_H);
+
+
+      if(prevBrickCol != ballBrickCol){
+        ballSpeedX = -ballSpeedX;
+      }
+      if(prevBrickRow != ballBrickRow){
+        ballSpeedY = -ballSpeedY;
+      }
     }
   }
   // colorText(ballBrickCol+","+ballBrickRow+": "+brickIndexUnderBall, mouseX, mouseY, 'white');
@@ -128,6 +140,12 @@ function updateMousePos(evt) {
   mouseY = evt.clientY - rect.top - root.scrollTop;
 
   paddleX = mouseX - PADDLE_WIDTH/2;
+
+  //cheat to test ball in any position
+  ballX = mouseX;
+  ballY = mouseY;
+  ballSpeedY = 3;
+  ballSpeedY = -4;
 }
 
 /**********
