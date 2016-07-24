@@ -95,12 +95,30 @@ function ballBrickColl(){
       var prevBrickRow = Math.floor(prevBallY / BRICK_H);
 
 
+      var bothTestFailed = true;
       if(prevBrickCol != ballBrickCol){
-        ballSpeedX = -ballSpeedX;
+        var adjBrickSide = rowColToArrayIndex(prevBrickCol, ballBrickRow);
+
+        if(brickGrid[adjBrickSide] == false){
+          ballSpeedX = -ballSpeedX;
+          bothTestFailed = false;
+        }
       }
+
       if(prevBrickRow != ballBrickRow){
+        var adjBrickSide = rowColToArrayIndex(ballBrickCol, prevBrickRow);
+
+        if (brickGrid[adjBrickSide] == false) {
+          ballSpeedY = -ballSpeedY;
+          bothTestFailed = false;
+        }
+      }
+
+      if(bothTestFailed){
+        ballSpeedX = -ballSpeedX;
         ballSpeedY = -ballSpeedY;
       }
+
     }
   }
   // colorText(ballBrickCol+","+ballBrickRow+": "+brickIndexUnderBall, mouseX, mouseY, 'white');
@@ -144,7 +162,7 @@ function updateMousePos(evt) {
   //cheat to test ball in any position
   ballX = mouseX;
   ballY = mouseY;
-  ballSpeedY = 3;
+  ballSpeedY = 4;
   ballSpeedY = -4;
 }
 
