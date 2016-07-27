@@ -40,6 +40,7 @@ window.onload = function(){
 
   canvas.addEventListener('mousemove', updateMousePos);
   brickReset();
+  ballRest();
 }
 
 function updateAll(){
@@ -59,11 +60,11 @@ function brickReset(){
     brickGrid[i] = false;
   }
   for (; i<BRICK_COLS*BRICK_ROWS; i++) {
-    // if(Math.random()<0.5){
-    //   brickGrid[i] = true;
-    // } else {
-    //   brickGrid[i] = false;
-    // }
+    if(Math.random()<0.5){
+      brickGrid[i] = true;
+    } else {
+      brickGrid[i] = false;
+    }
     brickGrid[i] = true;
     brickCount++;
   }
@@ -77,6 +78,7 @@ function ballMove(){
   if(ballY > canvas.height){
     // ballSpeedY = -ballSpeedY;
     ballRest();
+    brickReset();
   } else if(ballY < 0){
     ballSpeedY = -ballSpeedY;
   }
@@ -149,6 +151,11 @@ function paddleMove(){
     var paddleCenterX = paddleX + PADDLE_WIDTH/2;
     var ballDistFromCenterX = ballX - paddleCenterX;
     ballSpeedX = ballDistFromCenterX * 0.35;
+
+    if (brickCount == 0) {
+      brickReset();
+    }
+
   }
 }
 
@@ -168,10 +175,10 @@ function updateMousePos(evt) {
   paddleX = mouseX - PADDLE_WIDTH/2;
 
   //cheat to test ball in any position
-  ballX = mouseX;
-  ballY = mouseY;
-  ballSpeedY = 4;
-  ballSpeedY = -4;
+  // ballX = mouseX;
+  // ballY = mouseY;
+  // ballSpeedY = 4;
+  // ballSpeedY = -4;
 }
 
 /**********
