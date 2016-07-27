@@ -6,11 +6,12 @@ var canvas, canvasContext;
 
 // Bricks
 const BRICK_W = 80;
-const BRICK_H = 40;
+const BRICK_H = 20;
 const BRICK_GAP = 2;
 const BRICK_COLS = 10;
-const BRICK_ROWS = 16;
+const BRICK_ROWS = 14;
 var brickGrid = new Array(BRICK_COLS*BRICK_ROWS);
+var brickCount = 0;
 
 // Ball
 var ballX = 75;
@@ -52,13 +53,19 @@ function ballRest(){
 }
 
 function brickReset(){
-  for (var i=0; i<BRICK_COLS*BRICK_ROWS; i++) {
+  brickCount = 0;
+  var i;
+  for (var i = 0; i < 3 * BRICK_COLS; i++) {
+    brickGrid[i] = false;
+  }
+  for (; i<BRICK_COLS*BRICK_ROWS; i++) {
     // if(Math.random()<0.5){
     //   brickGrid[i] = true;
     // } else {
     //   brickGrid[i] = false;
     // }
     brickGrid[i] = true;
+    brickCount++;
   }
 }
 
@@ -88,6 +95,7 @@ function ballBrickColl(){
   if (ballBrickCol >= 0 && ballBrickCol < BRICK_COLS && ballBrickRow >= 0 && ballBrickRow < BRICK_ROWS){
     if (brickGrid[brickIndexUnderBall]) {
       brickGrid[brickIndexUnderBall] = false;
+      brickCount--;
 
       var prevBallX = ballX - ballSpeedX;
       var prevBallY = ballY - ballSpeedY;
