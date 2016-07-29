@@ -79,13 +79,13 @@ function ballMove(){
     // ballSpeedY = -ballSpeedY;
     ballRest();
     brickReset();
-  } else if(ballY < 0){
+  } else if(ballY < 0 && ballSpeedY > 0.0){
     ballSpeedY = -ballSpeedY;
   }
   // ballx
-  if(ballX > canvas.width){
+  if(ballX > canvas.width && ballSpeedX > 0.0){
     ballSpeedX = -ballSpeedX;
-  } else if(ballX < 0){
+  } else if(ballX < 0 && ballSpeedX < 0.0){
     ballSpeedX = -ballSpeedX;
   }
 }
